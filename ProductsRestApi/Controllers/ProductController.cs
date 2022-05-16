@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProductsRestApi.Models.Dto;
+using ProductsRestApi.Repositories;
 
 namespace ProductsRestApi.Controllers
 {
@@ -7,78 +9,103 @@ namespace ProductsRestApi.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IProductRepository _productRepository;
+        private  readonly ICategoryRepository _categoryRepository;
+        private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ApplicationDbContext context)
+
+
+        public ProductController(ApplicationDbContext context, ILogger<ProductController> logger, 
+            IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
-             _context = context;    
+            _logger = logger;
+           _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
+
+
         [HttpGet("GetAllProducts")]
-        public ActionResult<IEnumerable<Product>> GetAllProducts()
+        [Authorize(Roles = "Admin,User")]
+        public async Task<ActionResult<List<ProductDto>>> GetAllProducts()
         {
-            var products = _context.Products;
-            return products;
+            var user = HttpContext.User;
+            _logger.LogInformation("Request accepted at {date}", DateTime.Now);
+           
+           
+                _logger.LogInformation("Request completed successfully at {date}", DateTime.Now);
+            return _productRepository.GetAllProductsRep();
         }
 
-
+        
         [HttpGet("GetSingleProduct/{productId}")]
-        public ActionResult<Product> GetProductById([FromRoute] int productId)
+        [Authorize(Roles = "Admin,User")]
+        public async Task<ActionResult<ProductDto>> GetProductById([FromRoute] int productId)
         {
-            var product = _context.Products.Find(productId);
-            if (product == null)
+            var product = _productRepository.GetProductByIdRep(productId);
+            if(product == null)
             {
+                _logger.LogError("Wrong product id entered");
                 return NotFound("Product is not found");
-
             }
-            return product;
+            _logger.LogInformation("User get information about product with id:" + productId);
+            return Ok(product);
+           
        }
+
+  
+
+        
         [HttpPost("AddNewProduct")]
-        public ActionResult<Product> AddNewProduct([FromBody] Product product)
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ProductDto>> AddNewProduct( ProductDto product)
         {
-            
+            var category = _categoryRepository.GetCategory(product.CategoryName);
             if (product.Id==0)
             {
-              var   productDb = new Product(product.Title, product.Description,
-                    product.Category, product.Price);
-                _context.Products.Add(productDb);
-                _context.SaveChanges();
-                return Ok(productDb);
+                _productRepository.AddNewProduct(product, category);
+                _logger.LogInformation("Product created with id:" + product.Id);
+                return Ok(product);
             }
-            return BadRequest("Please delete id :d"); 
-
+            return BadRequest("You can not add id, it is auto generated"); 
         }
 
 
 
         [HttpPut("UpdateProduct")]
-        public ActionResult<Product> UpdateProduct([FromBody] Product product )
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ProductDto>> UpdateProduct([FromBody] ProductDto product)
+
         {
-            var productDb = _context.Products.Find(product.Id);
+            _logger.LogInformation("Trying to update product with id:" + product.Id);
+            var productDb = _productRepository.GetProductByIdRep(product.Id);
             if (productDb == null)
             {
                 return NotFound("Product is not found");
             }
-            productDb.Title = product.Title;
-            productDb.Description = product.Description;
-            productDb.Category = product.Category;
-            productDb.Price = product.Price;
+            var category = _categoryRepository.GetCategory(product.CategoryName);
+            if (category == null)
+            {
+                return NotFound("Category is not found");
+            }
 
-            _context.SaveChanges();
-            return Ok(productDb);
+            var updatedProductDtp =  _productRepository.UpdateProduct(product, category);
+            _logger.LogWarning(product.Title + "is updated");
+
+            return Ok(updatedProductDtp);
         }
 
     
        [HttpDelete("DeleteProduct")]
-       public ActionResult DeleteProduct([FromForm] int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> DeleteProduct([FromForm] int id)
         {
-            var productDb = _context.Products.Find(id);
-            if(productDb == null)
-            {
-                return NotFound("product is not found");
+            _logger.LogInformation("Request accepted to delete Product with {id} id", id);
+            if (_productRepository.Delete(id)) {
+                return Ok("Product is deleted");
             }
-            _context.Products.Remove(productDb);
-            _context.SaveChanges();
-            return Ok();
+            _logger.LogWarning("Product with  {id} id is deleted ", id);
+            return BadRequest("Product is not found");
+
         }
         
     }
