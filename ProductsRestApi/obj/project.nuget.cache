@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "r4xDfDHWltbLz8rlZ2CkL4icR0O1r/KpueN7mrz18FRQaHGqHbCs63oLUUpl0HIAWKQe5vpUAjMT3wA7z+d+ag==",
+  "dgSpecHash": "frM8n4ObD2ksu9sv50WXrPlhXl9qNHPHpAju+HlUfrqM0E8lDTBH455umdsVFh6kBuXG2vHYMdb8WKRKUfGbRg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ili\\source\\repos\\git\\ProductsRestApi\\ProductsRestApi\\ProductsRestApi.csproj",
+  "projectFilePath": "C:\\Users\\ili\\source\\repos\\ProductsRestApi\\ProductsRestApi\\ProductsRestApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ili\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ili\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",

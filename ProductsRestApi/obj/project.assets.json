@@ -10173,11 +10173,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ili\\source\\repos\\git\\ProductsRestApi\\ProductsRestApi\\ProductsRestApi.csproj",
+      "projectUniqueName": "C:\\Users\\ili\\source\\repos\\ProductsRestApi\\ProductsRestApi\\ProductsRestApi.csproj",
       "projectName": "ProductsRestApi",
-      "projectPath": "C:\\Users\\ili\\source\\repos\\git\\ProductsRestApi\\ProductsRestApi\\ProductsRestApi.csproj",
+      "projectPath": "C:\\Users\\ili\\source\\repos\\ProductsRestApi\\ProductsRestApi\\ProductsRestApi.csproj",
       "packagesPath": "C:\\Users\\ili\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ili\\source\\repos\\git\\ProductsRestApi\\ProductsRestApi\\obj\\",
+      "outputPath": "C:\\Users\\ili\\source\\repos\\ProductsRestApi\\ProductsRestApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ili\\AppData\\Roaming\\NuGet\\NuGet.Config",
