@@ -1,0 +1,62 @@
+﻿@model WebApplication1.Models.ProductModel
+
+@using (Html.BeginForm("UpdateProductt", "Home", FormMethod.Post))
+{
+    
+    <h2>Update Product</h2>
+    <table class="table-dark">
+        
+        
+
+        <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <td>
+                @Html.TextBoxFor(model => model.Id)
+              
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Title)
+                  
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Description)
+                
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Price)
+                 
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.CategoryName)
+                
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    
+    <input type="submit" value="Update"/>
+}
+

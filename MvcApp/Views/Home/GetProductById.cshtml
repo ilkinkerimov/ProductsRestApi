@@ -1,0 +1,36 @@
+﻿@using WebApplication1.Models
+
+@model ProductModel
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>
+                @Html.DisplayFor(item => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(item => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(item => item.Price)
+            </td>
+           
+        </tr>
+
+    </tbody>
+</table>
